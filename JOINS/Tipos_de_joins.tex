@@ -1,0 +1,357 @@
+% -- -- % -- -- % -- -- % -- -- % -- -- % -- -- % -- -- % -- -- %
+% -- CREADOR POR : JUAN SEBASTIÁN MARTÍNEZ SERNA             -- %
+% -- TWITTER     : @JuanS3bas                                -- %
+% -- PÁGINA WEB  : https://sigmlapha.co                      -- %
+% -- TWITTER PÁG : @sigmalpha_                               -- %
+% -- -- % -- -- % -- -- % -- -- % -- -- % -- -- % -- -- % -- -- %
+
+\documentclass{article}
+\usepackage[landscape]{geometry}
+\usepackage{url}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+
+\usepackage{fontawesome}
+\usepackage{hyperref}
+\usepackage{minted}
+
+\advance\topmargin -2cm
+\advance\textheight 5cm
+\advance\textwidth 7.5cm
+\advance\oddsidemargin -3.6cm
+\advance\evensidemargin -3.6cm
+\parindent 3pt
+\parskip 5pt
+
+\def\TableA{(0,0) circle (1.2cm)}
+\def\TableB{(1.5,0) circle (1.2cm)}
+
+\begin{document}
+    
+    \begin{center}
+        {\huge{\textbf{\color{cyan} Tipos de Join en SQL}}}\\
+        {\textit{By Sebastián Martínez}} \\
+
+        {\faAngleDoubleLeft} {\href{https://github.com/JuanS3}{{\faGithub} {$JuanS3$}}} {$|$}
+                             {\href{https://sigmlapha.co} {{\faLink} {$sigmalpha.co$}}} {$|$}
+                             {\href{https://twitter.com/sigmalpha_} {{\faTwitter} {$sigmalpha\_$}}} {$|$}
+                             {\href{https://twitter.com/juans3bas} {{\faTwitter} {$juans3bas$}}}
+         {\faAngleDoubleRight} \\
+
+    \end{center}
+    \begin{multicols*}{2}
+    
+        % CUADRO (MARCO)
+        \tikzstyle{mybox} = [draw=cyan, fill=white, very thick,
+            rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
+        % NOMBRE DEL MARCO
+        \tikzstyle{fancytitle} =[fill=cyan, text=white, font=\bfseries]
+
+
+        %------------ INNER JOIN ---------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                    	\begin{center}
+                        	\begin{tikzpicture}
+                                \begin{scope}[fill opacity=0.5]
+                                    \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                    \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                \end{scope}
+                                \begin{scope}[fill opacity=0.5]
+                                    \clip \TableA;
+                                    \fill  [green!50]
+                                    \TableB;
+                                \end{scope}
+                            \end{tikzpicture}
+                    	\end{center}
+
+                        \begin{minted}[mathescape, linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+  INNER JOIN TableB AS B
+     ON A.KEY = B.KEY;
+                        \end{minted}
+                        
+
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {INNER JOIN};
+        \end{tikzpicture}
+
+
+        %------------ LEFT OUTER JOIN ---------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                		\begin{center}
+                        	\begin{tikzpicture}
+                                \begin{scope}[fill opacity=0.5]
+                                    \fill[yellow] \TableA;
+                                    \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                    \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                \end{scope}
+                            \end{tikzpicture}
+                            
+                    	\end{center}
+    
+                    	\begin{minted}[linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+  LEFT JOIN TableB AS B
+    ON A.KEY = B.KEY;
+                        \end{minted}
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {LEFT OUTER JOIN};
+        \end{tikzpicture}
+
+
+        %------------ RIGHT OUTER JOIN ---------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                		\begin{center}
+                        	\begin{tikzpicture}
+                                \begin{scope}[fill opacity=0.5]
+                                    \fill[cyan] \TableB;
+                                    \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                    \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                \end{scope}
+                            \end{tikzpicture}
+                            
+                    	\end{center}
+    
+                    	\begin{minted}[linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+  RIGHT JOIN TableB AS B
+     ON A.KEY = B.KEY;
+                        \end{minted}
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {RIGHT OUTER JOIN};
+        \end{tikzpicture}
+
+        %------------ FULL OUTER JOIN ---------------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                        \begin{minipage}{0.45\textwidth}
+                        	\begin{center}
+                            	\begin{tikzpicture}
+                                    \begin{scope}[fill opacity=0.5]
+                                        \fill[yellow] \TableA;
+                                        \fill[cyan] \TableB;
+                                        \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                        \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                    \end{scope}
+                                \end{tikzpicture}
+                        	\end{center}
+                    	\end{minipage}
+    
+                        \begin{minted}[linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+  FULL OUTER JOIN TableB AS B
+    ON A.KEY = B.KEY;
+                        \end{minted}
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {FULL OUTER JOIN};
+        \end{tikzpicture}
+
+
+        %------------ LEFT JOIN CON EXCLUSIÓN ---------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                		\begin{center}
+                        	\begin{tikzpicture}
+                                \begin{scope}[fill opacity=0.5]
+                                    \fill[yellow] \TableA;
+                                    \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                    \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                \end{scope}
+                                
+                                \begin{scope}[fill opacity=1]
+                                    \clip \TableA;
+                                    \fill[white]
+                                    \TableB;
+                                \end{scope}
+                            \end{tikzpicture}
+                    	\end{center}
+
+                    	\begin{minted}[linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+  LEFT JOIN TableB AS B
+    ON A.KEY = B.KEY
+WHERE B.KEY IS NULL;
+                        \end{minted}
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {LEFT JOIN CON EXCLUSIÓN};
+        \end{tikzpicture}
+
+
+        %------------ RIGHT JOIN CON EXCLUSIÓN ---------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                		\begin{center}
+                        	\begin{tikzpicture}
+                                \begin{scope}[fill opacity=0.5]
+                                    \fill[cyan] \TableB;
+                                    \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                    \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                \end{scope}
+    
+                                \begin{scope}[fill opacity=1]
+                                    \clip \TableA;
+                                    \fill[white]
+                                    \TableB;
+                                \end{scope}
+                            \end{tikzpicture}
+                            
+                    	\end{center}
+    
+                    	\begin{minted}[linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+  RIGHT JOIN TableB AS B
+     ON A.KEY = B.KEY
+WHERE B.KEY IS NULL;
+                        \end{minted}
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {RIGHT JOIN CON EXCLUSIÓN};
+        \end{tikzpicture}
+
+
+        %------------ FULL OUTER JOIN CON EXCLUSIÓN ---------------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                        \begin{minipage}{0.45\textwidth}
+                        	\begin{center}
+                            	\begin{tikzpicture}
+                                    \begin{scope}[fill opacity=0.5]
+                                        \fill[yellow] \TableA;
+                                        \fill[cyan] \TableB;
+                                        \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                        \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                    \end{scope}
+        
+                                    \begin{scope}[fill opacity=1]
+                                        \clip \TableA;
+                                        \fill[white]
+                                        \TableB;
+                                    \end{scope}
+                                \end{tikzpicture}
+                        	\end{center}
+                        \end{minipage}
+    
+                        \begin{minipage}{0.45\textwidth}
+                            \begin{minted}[linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+  FULL OUTER JOIN TableB AS B
+    ON A.KEY = B.KEY
+WHERE B.KEY IS NULL
+  AND A.KEY IS NULL;
+                            \end{minted}
+                        \end{minipage}
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {FULL OUTER JOIN CON EXCLUSIÓN};
+        \end{tikzpicture}
+
+
+        %------------ SEMI JOIN  ---------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                		\begin{center}
+                        	\begin{tikzpicture}
+                                \begin{scope}[fill opacity=0.5]
+                                    \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                    \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                \end{scope}
+                                \begin{scope}[fill opacity=0.5]
+                                    \clip \TableA;
+                                    \fill  [green!50]
+                                    \TableB;
+                                \end{scope}
+                            \end{tikzpicture}
+                    	\end{center}
+    
+                    	\begin{minted}[linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+WHERE EXISTS
+        (SELECT 1
+         FROM TableB AS B
+         WHERE A.KEY = B.KEY);
+                        \end{minted}
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {SEMI JOIN};
+        \end{tikzpicture}
+
+
+        %------------ ANTI SEMI JOIN  ---------------
+        \begin{tikzpicture}
+            \node [mybox] (box){%
+                \begin{minipage}{0.45\textwidth}
+                    \begin{multicols}{2}
+                		\begin{center}
+                        	\begin{tikzpicture}
+                                \begin{scope}[fill opacity=0.5]
+                                    \fill[yellow] \TableA;
+                                    \draw[color=yellow] \TableA node [color=black, fill opacity=1, left] {$A$};
+                                    \draw[color=cyan] \TableB node [color=black, fill opacity=1, right] {$B$};
+                                \end{scope}
+                                
+                                \begin{scope}[fill opacity=1]
+                                    \clip \TableA;
+                                    \fill[white]
+                                    \TableB;
+                                \end{scope}
+                            \end{tikzpicture}
+                    	\end{center}
+    
+                    	\begin{minted}[linenos, numbersep=5pt, frame=lines]{sql}
+SELECT A.*, B.*
+FROM TableA AS A
+WHERE NOT EXISTS
+        (SELECT 1
+         FROM TableB AS B
+         WHERE A.KEY = B.KEY);
+                        \end{minted}
+                    \end{multicols}
+                \end{minipage}
+            };
+            \node[fancytitle, right=10pt] at (box.north west) {ANTI SEMI JOIN};
+        \end{tikzpicture}
+
+
+    \end{multicols*}
+\end{document}
